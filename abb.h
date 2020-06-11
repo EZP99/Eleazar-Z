@@ -16,6 +16,7 @@ public:
     // Método constructor que inicializa los atributos de la clase.
     NodoBinario(T datos, NodoBinario* hijoIzquierdo,
                 NodoBinario* hijoDerecho);
+	NodoBinario();
     
     // Devuelve el hijo izquierdo de este nodo.
     NodoBinario* getHijoIzquierdo();
@@ -31,6 +32,8 @@ public:
     
     // Devuelve los datos almacenados en este nodo.
     T getDatos();
+
+    void setDatos(T ndatos);
 };
 
 NodoBinario::NodoBinario(T datos,NodoBinario* HijoIzq, NodoBinario* HijoDer){
@@ -58,6 +61,20 @@ void NodoBinario::setHijoIzquierdo(NodoBinario* Hijoizq){
 T NodoBinario::getDatos(){
 	return datos;
 }
+
+NodoBinario::NodoBinario()
+{
+	HijoDerecho= NULL;
+	HijoIzquierdo = NULL;
+	datos = 0;
+}
+
+void NodoBinario::setDatos(T ndatos)
+{
+	datos = ndatos;
+}
+
+
 
 //
 // Clase que representa de forma simplificada un árbol binario de búsqueda.
@@ -102,22 +119,18 @@ ArbolBinarioBusqueda::~ArbolBinarioBusqueda(){
 }
 //funcion Buscar
 int ArbolBinarioBusqueda::buscar(T elem){
-	if(aux == NULL){
-		cout<<"no hay ningun dato"<<endl;
+	if(raiz == NULL){
+		return 1;
 	}else{
-		if(aux->getDatos() == elem){
-			return 0;
-		}else if(elem < aux->getDatos()){
-			return 1 + buscardato(elem,raiz->getHijoIzquierdo());
-		}else{
-			return 1 + buscardato(elem,raiz->getHijoDerecho());
-		}
+		return buscardato(elem,raiz);
 	}
 }
 //funcion Insertar
 bool ArbolBinarioBusqueda::insertar(T elem){
 	if(raiz == NULL){
-		raiz = new  NodoBinario(elem,NULL,NULL);
+		NodoBinario* nuevo = new NodoBinario();
+		nuevo -> setDatos(elem);
+		raiz = nuevo;
 		aux = raiz;
 		return true;
 	}
@@ -128,7 +141,8 @@ bool ArbolBinarioBusqueda::insertar(T elem){
 			return false;
 		}else if(valor < elem){
 			if(aux->getHijoIzquierdo() == NULL ){
-				NodoBinario* nuevo = new NodoBinario(elem,NULL,NULL);
+				NodoBinario* nuevo = new NodoBinario();
+				nuevo -> setDatos(elem);
 				aux->setHijoIzquierdo(nuevo);
 				aux = raiz;
 				return true;
@@ -137,8 +151,9 @@ bool ArbolBinarioBusqueda::insertar(T elem){
 				return insertar(elem);
 			}
 		}else{
-			if(aux->getHijoDerecho() == NULL){ 
-				NodoBinario* nuevo = new NodoBinario(elem,NULL,NULL);
+			if(aux->getHijoDerecho() == NULL){
+				NodoBinario* nuevo = new NodoBinario();
+				nuevo -> setDatos(elem);
 				aux->setHijoDerecho(nuevo);
 				aux = raiz;
 				return true;
@@ -149,16 +164,17 @@ bool ArbolBinarioBusqueda::insertar(T elem){
 		}
 	}
 }
-int ArbolBinarioBusqueda::buscardato(T elem,NodoBinario* raiz){
-		if(aux == NULL){
-			cout<<"no hay ningun dato"<<endl;
+int ArbolBinarioBusqueda::buscardato(T elem,NodoBinario* arbol){
+		if(arbol == NULL){
+			return 1;
 		}else{
-			if(aux->getDatos() == elem){
-				return 0;
-			}else if(elem < aux->getDatos()){
-				return 1 + buscardato(elem,raiz->getHijoIzquierdo());
+			if(arbol->getDatos() == elem){
+				return 1;
+			}else if(elem < arbol->getDatos()){
+				return 1 + buscardato(elem,arbol->getHijoIzquierdo());
 			}else{
-				return 1 + buscardato(elem,raiz->getHijoDerecho());
+				return 1 + buscardato(elem,arbol->getHijoDerecho());
 		}	
 	}
 }
+
