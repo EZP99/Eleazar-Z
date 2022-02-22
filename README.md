@@ -1,2 +1,2 @@
 # Eleazar-Z
-Programador / Estudiante/ Musico
+Programador / Estudiante 
